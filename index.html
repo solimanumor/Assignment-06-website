@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <style>
+        .active{
+            background-color: #15803D;
+            color: white;
+        }
+    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Green Earth</title>
@@ -81,7 +87,13 @@
                      </div>
                     
                     <!-- tree details section  and responsive-->
-                    <div id="tree-details" class="trees-container grid grid-cols-1  md:grid-cols-3 gap-7 col-span-3  ">
+                    <div id="tree-details" class="trees-container grid grid-cols-1  md:grid-cols-3 gap-7 col-span-3 border border-2 border-red-700 ">
+                       
+                        <!-- Spinner section -->
+                        <section id="spinner" class="flex justify-center items-center py-10 hidden">
+                            <span class="loading loading-bars loading-xl"></span>
+                            
+                        </section>
                         <!-- cart and responsive-->
                         
                         
@@ -91,10 +103,13 @@
                     <div  class="your-cart-container col-span-1 bg-white p-2 ">
                         <h3 class="text-xl font-bold text-center ">Your cart</h3>
                         
-                        <div id="CartHistory" class="border border-2 border-red-600">
+                        <div id="CartHistory" class="">
                             <!-- payment details -->
                             
                             <!-- payment details -->
+                        </div>
+                        <div id="total-bill" class="total-price border-t border-gray-400 mt-2">
+                            
                         </div>
                         
 

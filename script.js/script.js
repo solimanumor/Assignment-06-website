@@ -32,7 +32,7 @@ const displayCatagories = (catagories) =>{
         
         <div class="container ">
                             
-                            <button onclick="loadPlantByCatagory(${catagory.id})" class="btn btn-soft btn-success text-black text-left btn-block px-0 ">${catagory.category_name}</button>
+                            <button id="btn-catagories-${catagory.id}" onclick="loadPlantByCatagory(${catagory.id})" class="btn btn-soft btn-success text-black text-left btn-block px-0 catagories-btn">${catagory.category_name}</button>
                         </div>
         `
         // 4.append the child in the catagoreisNameContainer 
@@ -85,7 +85,7 @@ const displayPlant =(plants)=>{
                             </div>
                             
                             <div>
-                                <button onClick="addToCart('${plant.name}','${plant.price}')" class="bg-[#15803D] rounded-full w-full font-bold text-center py-3 text-white">Add to the cart</button>
+                                <button onClick="addToCart('${plant.name}','${plant.price}, ${plant.id}')" class="bg-[#15803D] rounded-full w-full font-bold text-center py-3 text-white">Add to the cart</button>
                             </div>
                         </div>
         
@@ -130,9 +130,16 @@ const loadPlantByCatagory =(catagoryId)=>{
     // console.log(text);
     fetch(catagoryUrl)
     .then(res=> res.json())
-    .then(json=>displayPlantByCatagory(json.plants))
+    .then(json=>{
+        removeActive();
+        const clickBtn = document.getElementById(`btn-catagories-${catagoryId}`)
+        // console.log(clickBtn);
+        clickBtn.classList.add('active');
+        displayPlantByCatagory(json.plants)
+    })
     
 }
+
 // ----------------------------------------------------------------------------
 
 // Showing plant by their catagory
@@ -185,7 +192,7 @@ const addToCart= (plantName, plantPrice)=>{
     const paymentCart = document.createElement('div')
         paymentCart.innerHTML =`
         
-        <div id="paymentCart" class="cart-price-container flex justify-between items-center bg-[#DCFCE7] rounded-lg p-2 mb-2">
+        <div id="paymentCard" class="cart-price-container flex justify-between items-center bg-[#DCFCE7] rounded-lg p-2 mb-2">
             <div class="">
                 <h4 class="text-xl font-semibold">${plantName}</h4>
                 <p class="text-lg"><i class="fa-solid fa-bangladeshi-taka-sign"></i> ${plantPrice} x 1</p>
@@ -196,16 +203,65 @@ const addToCart= (plantName, plantPrice)=>{
         
         `;
     CartContainer.append(paymentCart)
-
+    totalBIll(plantPrice)
+ 
 }
 
 //  Remove from cart 
 
-const removePayment = ()=>{
+const removePayment = (id)=>{
 
-    const getContainer = document.getElementById('paymentCart')
+    const getContainer = document.getElementById('paymentCard')
+    // console.log(getContainer);
 
-    if(getContainer){
+    
         getContainer.remove();
+   
+}
+
+// Adding to the total bill
+
+const totalBIll = (price)=>{
+    let currentTotal = 0; // keep track of the total globally
+
+
+    const priceContainer = document.getElementById('total-bill');
+    if (!priceContainer) {
+        console.error("Element with id 'total-bill' not found.");
+        return;
+    }
+
+    // Add new price to the existing total
+    currentTotal += price;
+
+    // Update the HTML
+    priceContainer.innerHTML = `
+        <div class="flex justify-between">
+            <p class="text-xl font-semibold">Total:</p>
+            <p class="text-xl">
+                <i class="fa-solid fa-bangladeshi-taka-sign"></i>${currentTotal}
+            </p>
+        </div>
+    `;
+//   priceContainer.append(priceContainerTwo)
+
+
+}
+
+// remove highlights color
+
+const removeActive=()=>{
+    const catagoriesButtons = document.querySelectorAll('.catagories-btn')
+    catagoriesButtons.forEach(btn=>btn.classList.remove('active'))
+}
+
+// adding spinner
+
+const manageSpinner= (status)=>{
+    if(status==true){
+        document.getElementById('spinner').classList.remove('hidden');
+    }else{
+                document.getElementById('spinner').classList.add('hidden');
+
     }
 }
