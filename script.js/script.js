@@ -83,7 +83,7 @@ const displayPlant =(plants)=>{
                             </div>
                             
                             <div>
-                                <button class="bg-[#15803D] rounded-full w-full font-bold text-center py-3 text-white">Add to the cart</button>
+                                <button onClick="addToCart(${plant})" class="bg-[#15803D] rounded-full w-full font-bold text-center py-3 text-white">Add to the cart</button>
                             </div>
                         </div>
         
@@ -131,6 +131,9 @@ const loadPlantByCatagory =(catagoryId)=>{
     .then(json=>displayPlantByCatagory(json.plants))
     
 }
+// ----------------------------------------------------------------------------
+
+// Showing plant by their catagory
 
 const displayPlantByCatagory = (plantsCatagory)=>{
 
@@ -168,6 +171,17 @@ const displayPlantByCatagory = (plantsCatagory)=>{
 
         plantDetailsByCatagory.append(plantCatagoryCart);
     }
+
+}
+
+// Adding to the cart
+
+const addToCart= (plantDetails)=>{
+    const CartContainer = document.getElementById('CartHistory')
+    CartContainer.innerHTML = `hello`
+
+    
+
 
 }
 
