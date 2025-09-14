@@ -57,6 +57,8 @@ allPlants();
 // display allPlant data in the screen from allplant API
 
 const displayPlant =(plants)=>{
+    // console.log(plants);
+    
     // 1.get the container and empty container
     const treeDetails = document.getElementById('tree-details');
     treeDetails.innerHTML = '';
@@ -83,7 +85,7 @@ const displayPlant =(plants)=>{
                             </div>
                             
                             <div>
-                                <button onClick="addToCart(${plant})" class="bg-[#15803D] rounded-full w-full font-bold text-center py-3 text-white">Add to the cart</button>
+                                <button onClick="addToCart('${plant.name}','${plant.price}')" class="bg-[#15803D] rounded-full w-full font-bold text-center py-3 text-white">Add to the cart</button>
                             </div>
                         </div>
         
@@ -163,7 +165,7 @@ const displayPlantByCatagory = (plantsCatagory)=>{
                             </div>
                             
                             <div>
-                                <button class="bg-[#15803D] rounded-full w-full font-bold text-center py-3 text-white">Add to the cart</button>
+                                <button onClick="addToCart('${catagory.name}','${catagory.price}')" class="bg-[#15803D] rounded-full w-full font-bold text-center py-3 text-white">Add to the cart</button>
                             </div>
                         </div>
         
@@ -176,12 +178,34 @@ const displayPlantByCatagory = (plantsCatagory)=>{
 
 // Adding to the cart
 
-const addToCart= (plantDetails)=>{
+const addToCart= (plantName, plantPrice)=>{
+    console.log(plantName, plantPrice);
     const CartContainer = document.getElementById('CartHistory')
-    CartContainer.innerHTML = `hello`
-
-    
-
+    // CartContainer.innerHTML = '';
+    const paymentCart = document.createElement('div')
+        paymentCart.innerHTML =`
+        
+        <div id="paymentCart" class="cart-price-container flex justify-between items-center bg-[#DCFCE7] rounded-lg p-2 mb-2">
+            <div class="">
+                <h4 class="text-xl font-semibold">${plantName}</h4>
+                <p class="text-lg"><i class="fa-solid fa-bangladeshi-taka-sign"></i> ${plantPrice} x 1</p>
+            </div>
+                <button onClick="removePayment()"><i class="fa-solid fa-x"></i></button>
+         </div>
+        
+        
+        `;
+    CartContainer.append(paymentCart)
 
 }
 
+//  Remove from cart 
+
+const removePayment = ()=>{
+
+    const getContainer = document.getElementById('paymentCart')
+
+    if(getContainer){
+        getContainer.remove();
+    }
+}
