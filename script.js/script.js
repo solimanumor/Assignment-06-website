@@ -3,9 +3,13 @@ console.log('js connected');
 // getting catagories name  from catagories API
 
 const loadCatagories = () =>{
-    fetch("https://openapi.programming-hero.com/api/categories")
+    const catagoriesUrl = "https://openapi.programming-hero.com/api/categories"
+    const catagoryUrl = ""
+
+    fetch(catagoriesUrl)
     .then(res => res.json())
     .then(data =>displayCatagories(data.categories))
+
 }
 loadCatagories();
 
@@ -27,7 +31,8 @@ const displayCatagories = (catagories) =>{
         catagoryDiv.innerHTML =`
         
         <div class="container ">
-                            <button onclick="loadPlantCatagory()" class="btn btn-soft btn-success text-black text-left btn-block px-0 ">${catagory.category_name}</button>
+                            
+                            <button onclick="loadPlantByCatagory(${catagory.id})" class="btn btn-soft btn-success text-black text-left btn-block px-0 ">${catagory.category_name}</button>
                         </div>
         `
         // 4.append the child in the catagoreisNameContainer 
@@ -116,9 +121,53 @@ const displayDetails =(planted)=>{
 
 // -------------------------------------------------------------------------
 
-// getting data from all plant by catagories API
+// getting data from all plant catagory API
 
-const loadPlantCatagory =()=>{
+const loadPlantByCatagory =(catagoryId)=>{
+    const catagoryUrl = `https://openapi.programming-hero.com/api/category/${catagoryId}`
+    // console.log(text);
+    fetch(catagoryUrl)
+    .then(res=> res.json())
+    .then(json=>displayPlantByCatagory(json.plants))
     
+}
+
+const displayPlantByCatagory = (plantsCatagory)=>{
+
+   // 1.get the container and empty container
+    const plantDetailsByCatagory = document.getElementById('tree-details');
+    plantDetailsByCatagory.innerHTML = '';
+    // 2.get every catagory name from api
+    for(const catagory of plantsCatagory){
+        const plantCatagoryCart = document.createElement('div');
+        plantCatagoryCart.innerHTML =`
+        
+        <div class="tress bg-white   p-4">
+                            <div class="mb-3">
+                                <img class="h-50 w-full" src="${catagory.image}" alt="">
+                            </div>
+                            
+                            
+                            <div class="mb-3">
+                                <h3  class="font-bold text-xl">${catagory.name}</h3>
+                                <p class="line-clamp-2">${catagory.description}</p>
+
+                                <div class="flex justify-between">
+                                    <button onClick="loadPlantDetails(${catagory.id})" class="bg-[#DCFCE7] text-[#15803D] rounded-full p-2 font-semibold">${catagory.name}</button>
+                                    <p class="font-semibold "> <i class="fa-solid fa-bangladeshi-taka-sign"></i> ${catagory.price}</p>
+                                </div>
+
+                            </div>
+                            
+                            <div>
+                                <button class="bg-[#15803D] rounded-full w-full font-bold text-center py-3 text-white">Add to the cart</button>
+                            </div>
+                        </div>
+        
+        `
+
+        plantDetailsByCatagory.append(plantCatagoryCart);
+    }
+
 }
 
